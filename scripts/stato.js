@@ -1,4 +1,4 @@
-import { MODULO, MIN_SEGMENTI, MAX_SEGMENTI, PALETTE } from "./costanti.js";
+import { MODULO, MIN_SEGMENTI, MAX_SEGMENTI, PALETTE, DIMENSIONI } from "./costanti.js";
 
 /* ------------------------------------------------------------------ */
 /*  Modello                                                            */
@@ -16,22 +16,25 @@ export function nuovoOrologio(dati = {}) {
   return {
     id: dati.id ?? foundry.utils.randomID(),
     titolo: dati.titolo ?? "",
+    unita: dati.unita ?? "",       // cosa rappresenta un segmento (scena, giorno, tentativo…)
     segmenti,
     pieni: 0,
-    durata,                      // secondi per segmento
+    durata,                        // secondi per segmento, salvo timer personalizzato
+    durate: Array.from({ length: segmenti }, (_, i) => dati.durate?.[i] ?? null),
     colore: dati.colore in PALETTE ? dati.colore : "rosso",
+    dimensione: dati.dimensione in DIMENSIONI ? dati.dimensione : "medio",
     ciclo: !!dati.ciclo,
     visibile: dati.visibile ?? true,
     mostraNomi: !!dati.mostraNomi,
     mostraTimer: dati.mostraTimer ?? true,
     manualeScatena: dati.manualeScatena ?? true,
     nomi: Array.from({ length: segmenti }, (_, i) => dati.nomi?.[i] ?? ""),
-    eventi: dati.eventi ?? {},   // { "1": [ {tipo, bersaglio, testo, soloNarratore} ], ... }
+    eventi: dati.eventi ?? {},     // { "1": [ {tipo, bersaglio, testo, soloNarratore} ], ... }
     attivo: false,
     inPausa: false,
     bloccato: false,
-    scadenza: null,              // epoch ms di fine del segmento in corso
-    residuo: durata * 1000,      // ms che restano al segmento in corso quando il timer non corre
+    scadenza: null,                // epoch ms di fine del segmento in corso
+    residuo: durata * 1000,        // ms che restano al segmento in corso quando il timer non corre
     ordine: dati.ordine ?? Date.now()
   };
 }
@@ -57,11 +60,23 @@ export function prendi(id) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Operazioni sul singolo orologio (mutano l'oggetto, non salvano)    */
+/*  Durate                                                             */
 /* ------------------------------------------------------------------ */
 
+/** Durata in secondi del segmento con indice 0-based, timer personalizzato incluso. */
+export function durataSegmento(c, indice) {
+  const propria = c.durate?.[indice];
+  if (Number.isFinite(propria) && propria > 0) return propria;
+  return Math.max(1, c.durata);
+}
+
+/** Indice 0-based del segmento in corso (o dell'ultimo, se l'orologio è pieno). */
+export function indiceCorrente(c) {
+  return Math.min(c.pieni, c.segmenti - 1);
+}
+
 export function durataMs(c) {
-  return Math.max(1, c.durata) * 1000;
+  return durataSegmento(c, indiceCorrente(c)) * 1000;
 }
 
 export function residuoMs(c, ora = Date.now()) {
@@ -77,6 +92,19 @@ export function frazioneCorrente(c, ora = Date.now()) {
   if (!c.attivo && resto >= tot) return 0;
   return Math.min(1, Math.max(0, 1 - resto / tot));
 }
+
+/** Nome del segmento (indice 0-based): quello scritto, altrimenti «unità N» o «Segmento N». */
+export function nomeSegmento(c, indice, generico = "") {
+  const scritto = (c.nomi?.[indice] ?? "").trim();
+  if (scritto) return scritto;
+  const unita = (c.unita ?? "").trim();
+  const base = unita ? unita.charAt(0).toUpperCase() + unita.slice(1) : generico;
+  return base ? `${base} ${indice + 1}` : "";
+}
+
+/* ------------------------------------------------------------------ */
+/*  Operazioni sul singolo orologio (mutano l'oggetto, non salvano)    */
+/* ------------------------------------------------------------------ */
 
 export function avvia(c, ora = Date.now()) {
   if (c.bloccato) return false;

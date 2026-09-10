@@ -1,88 +1,123 @@
 <div class="orologio-config-radice">
+<nav class="sheet-tabs tabs orologio-linguette" data-group="primary">
+  {{#each tabs}}
+  <a class="item {{cssClass}}" data-action="tab" data-group="{{group}}" data-tab="{{id}}"><i class="{{icon}}"></i> {{localize label}}</a>
+  {{/each}}
+</nav>
 <div class="orologio-config-corpo">
 
-  <div class="form-group">
-    <label>{{localize "OROLOGIO.Campi.Titolo"}}</label>
-    <div class="form-fields">
-      <input type="text" name="titolo" value="{{o.titolo}}" placeholder="{{localize "OROLOGIO.Titolo"}}" autofocus>
-    </div>
-  </div>
+  {{!-- 1. Base --}}
+  <section class="tab orologio-scheda-cfg {{tabs.base.cssClass}}" data-group="primary" data-tab="base">
+    <p class="orologio-guida">{{localize "OROLOGIO.Config.GuidaBase"}}</p>
 
-  <div class="form-group">
-    <label>{{localize "OROLOGIO.Campi.Segmenti"}}</label>
-    <div class="form-fields">
-      <select name="segmenti" class="ricalcola">
-        {{#each segmentiOpzioni}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{value}}</option>{{/each}}
-      </select>
-    </div>
-    <p class="hint">{{localize "OROLOGIO.Campi.SegmentiAiuto"}}</p>
-  </div>
-
-  <div class="form-group">
-    <label>{{localize "OROLOGIO.Campi.Durata"}}</label>
-    <div class="form-fields orologio-durata">
-      <input type="number" name="minuti" min="0" step="1" value="{{minuti}}"> <span>min</span>
-      <input type="number" name="secondi" min="0" max="59" step="1" value="{{secondi}}"> <span>s</span>
-    </div>
-    <p class="hint">{{localize "OROLOGIO.Campi.DurataAiuto"}}</p>
-  </div>
-
-  <div class="form-group">
-    <label>{{localize "OROLOGIO.Campi.Colore"}}</label>
-    <div class="form-fields orologio-colori">
-      {{#each colori}}
-      <label class="orologio-swatch" style="--tinta: {{hex}}" title="{{etichetta}}">
-        <input type="radio" name="colore" value="{{chiave}}" {{#if selected}}checked{{/if}}>
-        <span></span>
-      </label>
-      {{/each}}
-    </div>
-  </div>
-
-  <div class="orologio-opzioni">
-    <label class="orologio-check"><input type="checkbox" name="ciclo" {{checked o.ciclo}}> {{localize "OROLOGIO.Campi.Ciclo"}} <span class="hint">{{localize "OROLOGIO.Campi.CicloAiuto"}}</span></label>
-    <label class="orologio-check"><input type="checkbox" name="visibile" {{checked o.visibile}}> {{localize "OROLOGIO.Campi.Visibile"}}</label>
-    <label class="orologio-check"><input type="checkbox" name="mostraTimer" {{checked o.mostraTimer}}> {{localize "OROLOGIO.Campi.MostraTimer"}}</label>
-    <label class="orologio-check"><input type="checkbox" name="mostraNomi" {{checked o.mostraNomi}}> {{localize "OROLOGIO.Campi.MostraNomi"}}</label>
-    <label class="orologio-check"><input type="checkbox" name="manualeScatena" {{checked o.manualeScatena}}> {{localize "OROLOGIO.Campi.ManualeScatena"}}</label>
-  </div>
-
-  <h3 class="orologio-sezione">{{localize "OROLOGIO.Config.Segmenti"}}</h3>
-  <p class="hint">{{localize "OROLOGIO.Config.SegmentiAiuto"}}</p>
-
-  {{#each righe}}
-  <fieldset class="orologio-segmento-cfg">
-    <legend>{{localize "OROLOGIO.Config.Segmento"}} {{s}}</legend>
     <div class="form-group">
-      <label>{{localize "OROLOGIO.Campi.Nome"}}</label>
+      <label>{{localize "OROLOGIO.Campi.Titolo"}}</label>
       <div class="form-fields">
-        <input type="text" name="nomi.{{i}}" value="{{nome}}" placeholder="{{localize "OROLOGIO.Campi.NomeSegnaposto"}}">
+        <input type="text" name="titolo" value="{{o.titolo}}" placeholder="{{localize "OROLOGIO.Campi.TitoloSegnaposto"}}" autofocus>
       </div>
     </div>
-    {{#each eventi}}
-    <div class="orologio-evento">
-      <select name="{{nome}}.tipo" class="evento-tipo ricalcola">
-        {{#each tipi}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
-      </select>
-      {{#if (eq campo "select")}}
-      <select name="{{nome}}.bersaglio">
-        {{#each opzioni}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
-      </select>
-      {{/if}}
-      {{#if (eq campo "file")}}
-      <input type="text" name="{{nome}}.bersaglio" value="{{bersaglio}}" placeholder="{{localize "OROLOGIO.Config.Percorso"}}">
-      <button type="button" data-action="sfoglia" data-campo="{{nome}}.bersaglio" data-tipo="{{tipoFile}}" title="{{localize "OROLOGIO.Config.Sfoglia"}}"><i class="fa-solid fa-file-import"></i></button>
-      {{/if}}
-      {{#if (eq campo "chat")}}
-      <input type="text" name="{{nome}}.testo" value="{{testo}}" placeholder="{{localize "OROLOGIO.Config.TestoChat"}}">
-      <label class="orologio-check piccola" title="{{localize "OROLOGIO.Config.SoloNarratoreAiuto"}}"><input type="checkbox" name="{{nome}}.soloNarratore" {{checked soloNarratore}}> {{localize "OROLOGIO.Config.SoloNarratore"}}</label>
-      {{/if}}
-      <button type="button" data-action="rimuoviEvento" data-segmento="{{s}}" data-k="{{k}}" class="pericolo" title="{{localize "OROLOGIO.Config.RimuoviEvento"}}"><i class="fa-solid fa-trash"></i></button>
+
+    <div class="form-group">
+      <label>{{localize "OROLOGIO.Campi.Segmenti"}}</label>
+      <div class="form-fields">
+        <select name="segmenti" class="ricalcola">
+          {{#each segmentiOpzioni}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{value}}</option>{{/each}}
+        </select>
+      </div>
+      <p class="hint">{{localize "OROLOGIO.Campi.SegmentiAiuto"}}</p>
     </div>
+
+    <div class="form-group">
+      <label>{{localize "OROLOGIO.Campi.Unita"}}</label>
+      <div class="form-fields">
+        <input type="text" name="unita" value="{{o.unita}}" class="ricalcola" placeholder="{{localize "OROLOGIO.Campi.UnitaSegnaposto"}}">
+      </div>
+      <p class="hint">{{localize "OROLOGIO.Campi.UnitaAiuto"}}</p>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "OROLOGIO.Campi.Durata"}}</label>
+      <div class="form-fields orologio-durata">
+        <input type="number" name="minuti" min="0" step="1" value="{{minuti}}"> <span>min</span>
+        <input type="number" name="secondi" min="0" max="59" step="1" value="{{secondi}}"> <span>s</span>
+      </div>
+      <p class="hint">{{localize "OROLOGIO.Campi.DurataAiuto"}}</p>
+    </div>
+  </section>
+
+  {{!-- 2. Aspetto --}}
+  <section class="tab orologio-scheda-cfg {{tabs.aspetto.cssClass}}" data-group="primary" data-tab="aspetto">
+    <div class="form-group">
+      <label>{{localize "OROLOGIO.Campi.Colore"}}</label>
+      <div class="form-fields orologio-colori">
+        {{#each colori}}
+        <label class="orologio-swatch" style="--tinta: {{hex}}" title="{{etichetta}}">
+          <input type="radio" name="colore" value="{{chiave}}" {{#if selected}}checked{{/if}}>
+          <span></span>
+        </label>
+        {{/each}}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "OROLOGIO.Campi.Dimensione"}}</label>
+      <div class="form-fields orologio-dimensioni">
+        {{#each dimensioni}}
+        <label class="orologio-radio"><input type="radio" name="dimensione" value="{{chiave}}" {{#if selected}}checked{{/if}}> {{etichetta}}</label>
+        {{/each}}
+      </div>
+      <p class="hint">{{localize "OROLOGIO.Campi.DimensioneAiuto"}}</p>
+    </div>
+
+    <div class="orologio-opzioni">
+      <label class="orologio-check"><input type="checkbox" name="ciclo" {{checked o.ciclo}}> {{localize "OROLOGIO.Campi.Ciclo"}} <span class="hint">{{localize "OROLOGIO.Campi.CicloAiuto"}}</span></label>
+      <label class="orologio-check"><input type="checkbox" name="visibile" {{checked o.visibile}}> {{localize "OROLOGIO.Campi.Visibile"}}</label>
+      <label class="orologio-check"><input type="checkbox" name="mostraTimer" {{checked o.mostraTimer}}> {{localize "OROLOGIO.Campi.MostraTimer"}}</label>
+      <label class="orologio-check"><input type="checkbox" name="mostraNomi" {{checked o.mostraNomi}}> {{localize "OROLOGIO.Campi.MostraNomi"}}</label>
+      <label class="orologio-check"><input type="checkbox" name="manualeScatena" {{checked o.manualeScatena}}> {{localize "OROLOGIO.Campi.ManualeScatena"}}</label>
+    </div>
+  </section>
+
+  {{!-- 3. Segmenti --}}
+  <section class="tab orologio-scheda-cfg {{tabs.segmenti.cssClass}}" data-group="primary" data-tab="segmenti">
+    <p class="orologio-guida">{{localize "OROLOGIO.Config.GuidaSegmenti"}}</p>
+
+    {{#each righe}}
+    <fieldset class="orologio-segmento-cfg">
+      <legend>{{segnaposto}}</legend>
+      <div class="orologio-segmento-riga">
+        <input type="text" name="nomi.{{i}}" value="{{nome}}" placeholder="{{segnaposto}}" title="{{localize "OROLOGIO.Campi.Nome"}}">
+        <span class="orologio-timer-proprio" title="{{localize "OROLOGIO.Campi.TimerProprioAiuto"}}">
+          <i class="fa-solid fa-stopwatch"></i>
+          <input type="number" name="durate.{{i}}.minuti" min="0" step="1" value="{{minuti}}" placeholder="–"> <span>min</span>
+          <input type="number" name="durate.{{i}}.secondi" min="0" max="59" step="1" value="{{secondi}}" placeholder="–"> <span>s</span>
+        </span>
+      </div>
+      {{#each eventi}}
+      <div class="orologio-evento">
+        <select name="{{nome}}.tipo" class="evento-tipo ricalcola">
+          {{#each tipi}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+        </select>
+        {{#if (eq campo "select")}}
+        <select name="{{nome}}.bersaglio">
+          {{#each opzioni}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+        </select>
+        {{/if}}
+        {{#if (eq campo "file")}}
+        <input type="text" name="{{nome}}.bersaglio" value="{{bersaglio}}" placeholder="{{localize "OROLOGIO.Config.Percorso"}}">
+        <button type="button" data-action="sfoglia" data-campo="{{nome}}.bersaglio" data-tipo="{{tipoFile}}" title="{{localize "OROLOGIO.Config.Sfoglia"}}"><i class="fa-solid fa-file-import"></i></button>
+        {{/if}}
+        {{#if (eq campo "chat")}}
+        <input type="text" name="{{nome}}.testo" value="{{testo}}" placeholder="{{localize "OROLOGIO.Config.TestoChat"}}">
+        <label class="orologio-check piccola" title="{{localize "OROLOGIO.Config.SoloNarratoreAiuto"}}"><input type="checkbox" name="{{nome}}.soloNarratore" {{checked soloNarratore}}> {{localize "OROLOGIO.Config.SoloNarratore"}}</label>
+        {{/if}}
+        <button type="button" data-action="rimuoviEvento" data-segmento="{{s}}" data-k="{{k}}" class="pericolo" title="{{localize "OROLOGIO.Config.RimuoviEvento"}}"><i class="fa-solid fa-trash"></i></button>
+      </div>
+      {{/each}}
+      <button type="button" class="orologio-aggiungi" data-action="aggiungiEvento" data-segmento="{{s}}"><i class="fa-solid fa-plus"></i> {{localize "OROLOGIO.Config.AggiungiEvento"}}</button>
+    </fieldset>
     {{/each}}
-    <button type="button" class="orologio-aggiungi" data-action="aggiungiEvento" data-segmento="{{s}}"><i class="fa-solid fa-plus"></i> {{localize "OROLOGIO.Config.AggiungiEvento"}}</button>
-  </fieldset>
-  {{/each}}
+  </section>
 
 </div>
 <footer class="form-footer">

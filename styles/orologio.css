@@ -62,14 +62,121 @@
 }
 
 #orologio-panel .orologio-presa {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   cursor: move;
   user-select: none;
-  padding: 2px 8px;
+  padding: 2px 4px 2px 8px;
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #ddd;
   text-shadow: 0 0 4px #000, 0 0 2px #000;
+}
+
+#orologio-panel .orologio-presa-modi {
+  display: flex;
+  gap: 2px;
+}
+
+#orologio-panel .orologio-presa-modi button {
+  width: 20px;
+  height: 18px;
+  padding: 0;
+  margin: 0;
+  font-size: 10px;
+  line-height: 1;
+  color: #bbb;
+  background: rgba(18, 18, 22, 0.7);
+  border: 1px solid #4a4a52;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+#orologio-panel .orologio-presa-modi button:hover {
+  color: #fff;
+  border-color: #8a8a99;
+}
+
+#orologio-panel .orologio-presa-modi button.attivo {
+  color: #f5d76e;
+  border-color: #c9a83a;
+}
+
+/* Stato piccolo: schede ridotte */
+
+#orologio-panel.modo-piccolo {
+  width: 200px;
+}
+
+#orologio-panel.modo-piccolo .orologio-scheda {
+  gap: 6px;
+  padding: 4px 6px;
+}
+
+#orologio-panel.modo-piccolo .orologio-torta-box {
+  width: 40px;
+  height: 40px;
+}
+
+#orologio-panel.modo-piccolo .orologio-titolo {
+  font-size: 12px;
+}
+
+#orologio-panel.modo-piccolo .orologio-tempo {
+  font-size: 14px;
+}
+
+#orologio-panel.modo-piccolo .orologio-segmento {
+  display: none;
+}
+
+#orologio-panel.modo-piccolo .orologio-comandi button {
+  width: 20px;
+  height: 18px;
+  font-size: 9px;
+}
+
+/* Stato minimo: una riga per orologio */
+
+#orologio-panel.modo-minimo {
+  width: auto;
+  min-width: 150px;
+  max-width: 260px;
+  gap: 2px;
+}
+
+.orologio-riga-minima {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border: 1px solid #4a4a52;
+  border-radius: 6px;
+  background: rgba(18, 18, 22, 0.88);
+}
+
+.orologio-riga-minima.nascosto-ai-giocatori {
+  opacity: 0.6;
+  border-style: dashed;
+}
+
+.orologio-riga-minima .orologio-torta-box.mini {
+  width: 18px;
+  height: 18px;
+  filter: none;
+}
+
+.orologio-riga-minima .orologio-titolo {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+}
+
+.orologio-riga-minima .orologio-tempo {
+  font-size: 13px;
 }
 
 .orologio-scheda {
@@ -262,6 +369,62 @@
   padding-right: 4px;
 }
 
+.orologio-config .orologio-linguette {
+  margin-bottom: 6px;
+}
+
+.orologio-config .orologio-scheda-cfg {
+  flex-direction: column;
+  gap: 8px;
+}
+
+.orologio-config .orologio-scheda-cfg.active {
+  display: flex;
+}
+
+.orologio-config .orologio-guida {
+  margin: 0 0 4px;
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.orologio-config .orologio-dimensioni {
+  display: flex;
+  gap: 12px;
+}
+
+.orologio-radio {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.orologio-segmento-riga {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.orologio-segmento-riga > input[type="text"] {
+  flex: 1;
+  min-width: 0;
+}
+
+.orologio-timer-proprio {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.orologio-timer-proprio input {
+  width: 48px;
+  flex: none;
+}
+
 .orologio-config .form-group {
   margin: 0;
 }
@@ -396,4 +559,10 @@
 
 .orologio-config .form-footer {
   margin-top: 8px;
+}
+
+.orologio-config-radice {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }

@@ -5,12 +5,17 @@
       "Titolo": "Orologi",
       "Gestisci": "Gestisci gli orologi",
       "Nuovo": "Nuovo orologio",
-      "Pannello": "Mostra o nascondi il pannello"
+      "Pannello": "Mostra o nascondi il pannello",
+      "TitoloNarratore": "Orologi: apri il gestore",
+      "TitoloGiocatore": "Orologi: mostra o nascondi"
     },
     "Pannello": {
       "Titolo": "Orologi",
       "Trascina": "Trascina per spostare il pannello",
-      "NascostoAiGiocatori": "Nascosto ai giocatori"
+      "NascostoAiGiocatori": "Nascosto ai giocatori",
+      "Allarga": "Allarga",
+      "Riduci": "Riduci in basso a sinistra",
+      "SoloTimer": "Solo nome e timer"
     },
     "Gestore": {
       "Titolo": "Orologi",
@@ -33,14 +38,16 @@
       "TestoChat": "Testo del messaggio",
       "SoloNarratore": "solo narratore",
       "SoloNarratoreAiuto": "Il messaggio arriva soltanto ai narratori",
-      "Salva": "Salva"
+      "Salva": "Salva",
+      "GuidaBase": "Bastano queste quattro cose per far partire l'orologio. Colore e opzioni stanno in Aspetto, nomi ed eventi dei singoli segmenti in Segmenti.",
+      "GuidaSegmenti": "Facoltativo. Per ogni segmento puoi dare un nome, un timer suo (vale al posto di quello di base) e una lista di eventi che scattano quando il segmento si riempie."
     },
     "Campi": {
       "Titolo": "Titolo",
       "Segmenti": "Segmenti",
       "SegmentiAiuto": "Da 3 a 10 fette della torta.",
       "Durata": "Durata di un segmento",
-      "DurataAiuto": "Allo scadere il segmento si riempie e parte il successivo.",
+      "DurataAiuto": "Vale per ogni segmento. Allo scadere il segmento si riempie e parte il successivo. Un segmento può avere un timer suo nella linguetta Segmenti.",
       "Colore": "Colore",
       "Ciclo": "Ciclo",
       "CicloAiuto": "(finito il giro riparte da zero; altrimenti si ferma pieno)",
@@ -49,7 +56,14 @@
       "MostraNomi": "I giocatori vedono i nomi dei segmenti",
       "ManualeScatena": "Gli eventi scattano anche con l'avanzamento manuale",
       "Nome": "Nome",
-      "NomeSegnaposto": "Lascia vuoto se non serve"
+      "NomeSegnaposto": "Lascia vuoto se non serve",
+      "TitoloSegnaposto": "Es. La notte del rituale",
+      "Unita": "Cosa rappresenta un segmento",
+      "UnitaSegnaposto": "Es. scena, giorno, tentativo",
+      "UnitaAiuto": "Serve a chiamare i segmenti senza scrivere un nome per ognuno: «Scena 1», «Scena 2»…",
+      "Dimensione": "Dimensione",
+      "DimensioneAiuto": "Quanto è grande la torta nel pannello.",
+      "TimerProprioAiuto": "Timer di questo segmento, al posto di quello di base. Vuoto: usa quello di base."
     },
     "Comandi": {
       "Indietro": "Segmento indietro",
@@ -89,6 +103,16 @@
     },
     "Avvisi": {
       "EventoFallito": "Orologio «{titolo}»: un evento del segmento {segmento} non è riuscito. Guarda la console."
+    },
+    "Linguette": {
+      "base": "Base",
+      "aspetto": "Aspetto",
+      "segmenti": "Segmenti"
+    },
+    "Dimensioni": {
+      "piccolo": "Piccola",
+      "medio": "Media",
+      "grande": "Grande"
     }
   }
 }

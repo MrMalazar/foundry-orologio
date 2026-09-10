@@ -15,6 +15,12 @@ export const PALETTE = {
 
 export const COLORE_VUOTO = "#26262b";
 
+// Diametro della torta nel pannello grande, in pixel.
+export const DIMENSIONI = { piccolo: 56, medio: 76, grande: 104 };
+
+// Stati del pannello: grande (schede complete), piccolo (ridotto), minimo (solo nome e timer).
+export const MODI_PANNELLO = ["grande", "piccolo", "minimo"];
+
 export const TIPI_EVENTO = ["scena", "journal", "immagine", "macro", "chat", "suono"];
 
 export function t(chiave, dati) {

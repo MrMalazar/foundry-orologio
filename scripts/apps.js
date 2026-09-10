@@ -1,4 +1,4 @@
-import { MODULO, MIN_SEGMENTI, MAX_SEGMENTI, PALETTE, TIPI_EVENTO, t } from "./costanti.js";
+import { MODULO, MIN_SEGMENTI, MAX_SEGMENTI, PALETTE, DIMENSIONI, TIPI_EVENTO, t } from "./costanti.js";
 import { leggi, scrivi, lista, prendi, nuovoOrologio, limitaSegmenti, durataMs } from "./stato.js";
 import { contesto, aggiornaTempi } from "./torta.js";
 import { comando } from "./motore.js";
@@ -127,6 +127,17 @@ export class OrologioConfig extends HandlebarsApplicationMixin(ApplicationV2) {
     form: { template: `modules/${MODULO}/templates/config.hbs`, scrollable: [".orologio-config-corpo"] }
   };
 
+  static TABS = {
+    primary: {
+      tabs: [
+        { id: "base", icon: "fa-solid fa-clock", label: "OROLOGIO.Linguette.base" },
+        { id: "aspetto", icon: "fa-solid fa-palette", label: "OROLOGIO.Linguette.aspetto" },
+        { id: "segmenti", icon: "fa-solid fa-list-ol", label: "OROLOGIO.Linguette.segmenti" }
+      ],
+      initial: "base"
+    }
+  };
+
   get title() {
     const nome = this.bozza.titolo?.trim();
     return nome ? `${t("Config.Titolo")}: ${nome}` : t("Config.Titolo");
@@ -170,17 +181,32 @@ export class OrologioConfig extends HandlebarsApplicationMixin(ApplicationV2) {
     const colori = Object.entries(PALETTE).map(([chiave, hex]) => ({
       chiave, hex, selected: chiave === o.colore, etichetta: t(`Colori.${chiave}`)
     }));
+    const dimensioni = Object.keys(DIMENSIONI).map(chiave => ({
+      chiave, selected: chiave === o.dimensione, etichetta: t(`Dimensioni.${chiave}`)
+    }));
+    const generico = t("Config.Segmento");
     const righe = [];
     for (let s = 1; s <= o.segmenti; s++) {
       const eventi = (o.eventi?.[String(s)] ?? []).map((e, k) => this.#contestoEvento(e, s, k));
-      righe.push({ s, i: s - 1, nome: o.nomi?.[s - 1] ?? "", eventi });
+      const propria = o.durate?.[s - 1];
+      righe.push({
+        s,
+        i: s - 1,
+        nome: o.nomi?.[s - 1] ?? "",
+        segnaposto: `${(o.unita ?? "").trim() || generico} ${s}`,
+        minuti: propria ? Math.floor(propria / 60) : "",
+        secondi: propria ? propria % 60 : "",
+        eventi
+      });
     }
     return {
       o,
+      tabs: this._prepareTabs("primary"),
       minuti: Math.floor(o.durata / 60),
       secondi: o.durata % 60,
       segmentiOpzioni,
       colori,
+      dimensioni,
       righe
     };
   }
@@ -274,8 +300,8 @@ export class OrologioConfig extends HandlebarsApplicationMixin(ApplicationV2) {
     const orologi = leggi();
     const esistente = orologi[bozza.id];
     const c = esistente ?? nuovoOrologio({ id: bozza.id });
-    const durataCambiata = c.durata !== bozza.durata;
-    for (const k of ["titolo", "segmenti", "durata", "colore", "ciclo", "visibile", "mostraNomi", "mostraTimer", "manualeScatena", "nomi", "eventi"]) {
+    const durataCambiata = c.durata !== bozza.durata || JSON.stringify(c.durate ?? []) !== JSON.stringify(bozza.durate ?? []);
+    for (const k of ["titolo", "unita", "segmenti", "durata", "durate", "colore", "dimensione", "ciclo", "visibile", "mostraNomi", "mostraTimer", "manualeScatena", "nomi", "eventi"]) {
       c[k] = bozza[k];
     }
     if (!c.titolo.trim()) c.titolo = t("Titolo");
@@ -291,7 +317,9 @@ export class OrologioConfig extends HandlebarsApplicationMixin(ApplicationV2) {
     const o = foundry.utils.deepClone(base);
     const d = foundry.utils.expandObject(dati);
     if (d.titolo !== undefined) o.titolo = String(d.titolo ?? "").trim();
+    if (d.unita !== undefined) o.unita = String(d.unita ?? "").trim();
     if (d.segmenti !== undefined) o.segmenti = limitaSegmenti(d.segmenti);
+    if (d.dimensione in DIMENSIONI) o.dimensione = d.dimensione;
     const minuti = Math.max(0, Number.parseInt(d.minuti ?? Math.floor(o.durata / 60), 10) || 0);
     const secondi = Math.max(0, Number.parseInt(d.secondi ?? (o.durata % 60), 10) || 0);
     o.durata = Math.max(1, minuti * 60 + secondi);
@@ -304,6 +332,14 @@ export class OrologioConfig extends HandlebarsApplicationMixin(ApplicationV2) {
       return String(v ?? o.nomi?.[i] ?? "").trim();
     });
     o.nomi = nomi;
+    o.durate = Array.from({ length: o.segmenti }, (_, i) => {
+      const riga = d.durate?.[String(i)];
+      if (riga === undefined) return o.durate?.[i] ?? null;
+      const m = Number.parseInt(riga.minuti, 10);
+      const sec = Number.parseInt(riga.secondi, 10);
+      const tot = (Number.isFinite(m) ? m : 0) * 60 + (Number.isFinite(sec) ? sec : 0);
+      return tot > 0 ? tot : null;
+    });
     if (d.eventi !== undefined) {
       const eventi = {};
       for (const [s, gruppo] of Object.entries(d.eventi ?? {})) {

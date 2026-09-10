@@ -39,11 +39,11 @@ Hooks.once("init", () => {
     default: true
   });
 
-  game.settings.register(MODULO, "posizionePannello", {
+  game.settings.register(MODULO, "statoPannello", {
     scope: "client",
     config: false,
     type: Object,
-    default: { left: 110, top: 10 }
+    default: { modo: "grande", ancorato: false, left: 110, top: 56 }
   });
 
   game.socket.on(SOCKET, ricezioneSocket);
@@ -57,20 +57,46 @@ Hooks.once("ready", () => {
 
 /* ------------------------------------------------------------------ */
 /*  Barra di sinistra                                                  */
+/*                                                                     */
+/*  L'icona dell'orologio si comporta da bottone: il giocatore accende */
+/*  o spegne la sua vista del pannello, il narratore apre il gestore.  */
+/*  Subito dopo si torna al controllo di prima, così i gettoni restano */
+/*  selezionabili e il livello vuoto non resta attivo.                 */
 /* ------------------------------------------------------------------ */
+
+let controlloPrecedente = "tokens";
+
+Hooks.on("renderSceneControls", app => {
+  const nome = app.control?.name ?? app.activeControl;
+  if (nome && nome !== MODULO) controlloPrecedente = nome;
+});
+
+function tornaAlControlloPrecedente() {
+  const nome = controlloPrecedente in (ui.controls?.controls ?? {}) ? controlloPrecedente : "tokens";
+  window.setTimeout(() => {
+    try {
+      ui.controls.activate({ control: nome });
+    } catch (err) {
+      console.warn("Orologio | non riesco a tornare al controllo precedente", err);
+    }
+  }, 0);
+}
 
 Hooks.on("getSceneControlButtons", controls => {
   const gm = game.user?.isGM ?? false;
   controls[MODULO] = {
     name: MODULO,
-    title: "OROLOGIO.Controlli.Titolo",
+    title: gm ? "OROLOGIO.Controlli.TitoloNarratore" : "OROLOGIO.Controlli.TitoloGiocatore",
     icon: "fa-solid fa-clock",
     order: 90,
     visible: true,
     layer: MODULO,
-    activeTool: "pannello",
+    activeTool: gm ? "gestisci" : "pannello",
     onChange: (event, attivo) => {
-      if (attivo && gm) OrologioManager.apri();
+      if (!attivo) return;
+      if (gm) OrologioManager.apri();
+      else Pannello.alterna();
+      tornaAlControlloPrecedente();
     },
     tools: {
       gestisci: {
@@ -97,6 +123,7 @@ Hooks.on("getSceneControlButtons", controls => {
         icon: "fa-solid fa-eye",
         order: 3,
         toggle: true,
+        visible: !gm,
         active: game.settings.get(MODULO, "pannelloVisibile"),
         onChange: (event, attivo) => Pannello.imposta(attivo)
       }

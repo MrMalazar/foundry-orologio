@@ -1,9 +1,22 @@
 <div class="orologio-presa" title="{{localize "OROLOGIO.Pannello.Trascina"}}">
-  <i class="fa-solid fa-clock"></i> {{localize "OROLOGIO.Pannello.Titolo"}}
+  <span class="orologio-presa-titolo"><i class="fa-solid fa-clock"></i> {{localize "OROLOGIO.Pannello.Titolo"}}</span>
+  <span class="orologio-presa-modi">
+    <button type="button" data-azione="modo" data-modo="grande" class="{{#if grande}}attivo{{/if}}" title="{{localize "OROLOGIO.Pannello.Allarga"}}"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></button>
+    <button type="button" data-azione="modo" data-modo="piccolo" class="{{#if piccolo}}attivo{{/if}}" title="{{localize "OROLOGIO.Pannello.Riduci"}}"><i class="fa-solid fa-down-left-and-up-right-to-center"></i></button>
+    <button type="button" data-azione="modo" data-modo="minimo" class="{{#if minimo}}attivo{{/if}}" title="{{localize "OROLOGIO.Pannello.SoloTimer"}}"><i class="fa-solid fa-stopwatch"></i></button>
+  </span>
 </div>
 {{#each orologi}}
+{{#if ../minimo}}
+<div class="orologio-riga-minima stato-{{stato}}{{#unless visibile}} nascosto-ai-giocatori{{/unless}}" data-id="{{id}}" title="{{titolo}} · {{pieni}}/{{segmenti}}{{#if corrente}} · {{corrente}}{{/if}}">
+  <span class="orologio-torta-box mini">{{{svg}}}</span>
+  <span class="orologio-titolo">{{titolo}}</span>
+  <span class="orologio-conteggio">{{pieni}}/{{segmenti}}</span>
+  {{#if mostraTempo}}<span class="orologio-tempo {{stato}}">{{tempo}}</span>{{/if}}
+</div>
+{{else}}
 <div class="orologio-scheda stato-{{stato}}{{#unless visibile}} nascosto-ai-giocatori{{/unless}}" data-id="{{id}}">
-  <div class="orologio-torta-box">{{{svg}}}</div>
+  <div class="orologio-torta-box" {{#if ../grande}}style="width: {{diametro}}px; height: {{diametro}}px;"{{/if}}>{{{svg}}}</div>
   <div class="orologio-info">
     <div class="orologio-titolo" title="{{titolo}}">
       {{titolo}}
@@ -26,4 +39,5 @@
     {{/if}}
   </div>
 </div>
+{{/if}}
 {{/each}}

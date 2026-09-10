@@ -5,12 +5,17 @@
       "Titolo": "Clocks",
       "Gestisci": "Manage clocks",
       "Nuovo": "New clock",
-      "Pannello": "Show or hide the panel"
+      "Pannello": "Show or hide the panel",
+      "TitoloNarratore": "Clocks: open the manager",
+      "TitoloGiocatore": "Clocks: show or hide"
     },
     "Pannello": {
       "Titolo": "Clocks",
       "Trascina": "Drag to move the panel",
-      "NascostoAiGiocatori": "Hidden from players"
+      "NascostoAiGiocatori": "Hidden from players",
+      "Allarga": "Expand",
+      "Riduci": "Shrink to bottom left",
+      "SoloTimer": "Name and timer only"
     },
     "Gestore": {
       "Titolo": "Clocks",
@@ -33,14 +38,16 @@
       "TestoChat": "Message text",
       "SoloNarratore": "GM only",
       "SoloNarratoreAiuto": "Only game masters receive the message",
-      "Salva": "Save"
+      "Salva": "Save",
+      "GuidaBase": "These four things are enough to start the clock. Color and options are under Look, names and events of single segments under Segments.",
+      "GuidaSegmenti": "Optional. Each segment can have a name, its own timer (replacing the base one) and a list of events that fire when the segment fills."
     },
     "Campi": {
       "Titolo": "Title",
       "Segmenti": "Segments",
       "SegmentiAiuto": "From 3 to 10 slices.",
       "Durata": "Segment duration",
-      "DurataAiuto": "When it runs out the segment fills and the next one starts.",
+      "DurataAiuto": "Applies to every segment. When it runs out the segment fills and the next one starts. A segment can have its own timer under Segments.",
       "Colore": "Color",
       "Ciclo": "Loop",
       "CicloAiuto": "(restart from zero after a full turn; otherwise stop when full)",
@@ -49,7 +56,14 @@
       "MostraNomi": "Players see segment names",
       "ManualeScatena": "Events also fire on manual advance",
       "Nome": "Name",
-      "NomeSegnaposto": "Leave empty if not needed"
+      "NomeSegnaposto": "Leave empty if not needed",
+      "TitoloSegnaposto": "E.g. The night of the ritual",
+      "Unita": "What a segment stands for",
+      "UnitaSegnaposto": "E.g. scene, day, attempt",
+      "UnitaAiuto": "Names the segments without writing a name for each: \"Scene 1\", \"Scene 2\"…",
+      "Dimensione": "Size",
+      "DimensioneAiuto": "How big the pie is in the panel.",
+      "TimerProprioAiuto": "Timer for this segment, instead of the base one. Empty: base timer."
     },
     "Comandi": {
       "Indietro": "Segment back",
@@ -89,6 +103,16 @@
     },
     "Avvisi": {
       "EventoFallito": "Clock \"{titolo}\": an event of segment {segmento} failed. Check the console."
+    },
+    "Linguette": {
+      "base": "Basics",
+      "aspetto": "Look",
+      "segmenti": "Segments"
+    },
+    "Dimensioni": {
+      "piccolo": "Small",
+      "medio": "Medium",
+      "grande": "Large"
     }
   }
 }

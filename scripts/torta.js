@@ -1,5 +1,5 @@
-import { PALETTE, COLORE_VUOTO, t } from "./costanti.js";
-import { frazioneCorrente, residuoMs, formattaMs, durataMs } from "./stato.js";
+import { PALETTE, COLORE_VUOTO, DIMENSIONI, t } from "./costanti.js";
+import { frazioneCorrente, residuoMs, formattaMs, nomeSegmento, indiceCorrente } from "./stato.js";
 
 function punto(cx, cy, r, gradi) {
   const rad = (gradi * Math.PI) / 180;
@@ -33,8 +33,8 @@ export function torta(c, { ora = Date.now(), conNomi = false } = {}) {
     const a0 = -90 + i * passo;
     const a1 = a0 + passo;
     const piena = i < c.pieni;
-    const nome = conNomi ? (c.nomi?.[i] ?? "") : "";
-    const titolo = nome ? `<title>${i + 1}. ${sicuro(nome)}</title>` : `<title>${i + 1}</title>`;
+    const nome = conNomi ? nomeSegmento(c, i) : "";
+    const titolo = nome ? `<title>${sicuro(nome)}</title>` : `<title>${i + 1}</title>`;
     parti += `<path class="orologio-fetta ${piena ? "piena" : "vuota"}" d="${fetta(cx, cy, r, a0, a1)}" fill="${piena ? colore : COLORE_VUOTO}">${titolo}</path>`;
     if (!piena && i === c.pieni && frazione > 0) {
       const fine = a0 + passo * frazione;
@@ -61,14 +61,15 @@ export function statoDi(c) {
 export function contesto(c, gm, ora = Date.now()) {
   const completo = c.pieni >= c.segmenti;
   const nomiVisibili = gm || c.mostraNomi;
-  const indice = completo ? c.segmenti - 1 : c.pieni;
-  const corrente = nomiVisibili ? (c.nomi?.[indice] ?? "") : "";
+  const indice = indiceCorrente(c);
+  const corrente = nomiVisibili ? nomeSegmento(c, indice) : "";
   const stato = statoDi(c);
   return {
     ...c,
     svg: torta(c, { ora, conNomi: nomiVisibili }),
     tempo: formattaMs(residuoMs(c, ora)),
-    durataTesto: formattaMs(durataMs(c)),
+    durataTesto: formattaMs(Math.max(1, c.durata) * 1000),
+    diametro: DIMENSIONI[c.dimensione] ?? DIMENSIONI.medio,
     stato,
     statoEtichetta: t(`Stato.${stato}`),
     completo,
