@@ -19,6 +19,7 @@ export function nuovoOrologio(dati = {}) {
     unita: dati.unita ?? "",       // cosa rappresenta un segmento (scena, giorno, tentativo…)
     segmenti,
     pieni: 0,
+    senzaTimer: !!dati.senzaTimer, // se vero avanza solo a mano: niente durata, niente conto alla rovescia
     durata,                        // secondi per segmento, salvo timer personalizzato
     durate: Array.from({ length: segmenti }, (_, i) => dati.durate?.[i] ?? null),
     colore: dati.colore in PALETTE ? dati.colore : "rosso",
@@ -80,13 +81,14 @@ export function durataMs(c) {
 }
 
 export function residuoMs(c, ora = Date.now()) {
+  if (c.senzaTimer) return 0;
   if (c.attivo && !c.inPausa && c.scadenza) return Math.max(0, c.scadenza - ora);
   return Math.max(0, c.residuo ?? durataMs(c));
 }
 
 /** Frazione (0..1) del segmento in corso già trascorsa. */
 export function frazioneCorrente(c, ora = Date.now()) {
-  if (c.pieni >= c.segmenti) return 0;
+  if (c.senzaTimer || c.pieni >= c.segmenti) return 0;
   const tot = durataMs(c);
   const resto = residuoMs(c, ora);
   if (!c.attivo && resto >= tot) return 0;
@@ -107,7 +109,7 @@ export function nomeSegmento(c, indice, generico = "") {
 /* ------------------------------------------------------------------ */
 
 export function avvia(c, ora = Date.now()) {
-  if (c.bloccato) return false;
+  if (c.bloccato || c.senzaTimer) return false;
   if (c.pieni >= c.segmenti) {
     c.pieni = 0;
     c.residuo = durataMs(c);
@@ -128,7 +130,15 @@ export function pausa(c, ora = Date.now()) {
 
 function riparteSegmento(c, ora) {
   c.residuo = durataMs(c);
-  c.scadenza = (c.attivo && !c.inPausa) ? ora + c.residuo : null;
+  c.scadenza = (c.attivo && !c.inPausa && !c.senzaTimer) ? ora + c.residuo : null;
+}
+
+/** Un orologio senza timer non ha stato di corsa: lo si riporta fermo. */
+export function spegniTimer(c) {
+  c.attivo = false;
+  c.inPausa = false;
+  c.scadenza = null;
+  c.residuo = durataMs(c);
 }
 
 /**

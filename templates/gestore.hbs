@@ -14,14 +14,14 @@
         {{#unless visibile}}<i class="fa-solid fa-eye-slash" title="{{localize "OROLOGIO.Pannello.NascostoAiGiocatori"}}"></i>{{/unless}}
       </div>
       <div class="orologio-dettagli">
-        {{pieni}}/{{segmenti}} · {{durataTesto}} {{localize "OROLOGIO.Gestore.PerSegmento"}} · {{statoEtichetta}}{{#if ciclo}} · {{localize "OROLOGIO.Campi.Ciclo"}}{{/if}}
+        {{pieni}}/{{segmenti}} · {{#if senzaTimer}}{{localize "OROLOGIO.Gestore.AMano"}}{{else}}{{durataTesto}} {{localize "OROLOGIO.Gestore.PerSegmento"}}{{/if}} · {{statoEtichetta}}{{#if ciclo}} · {{localize "OROLOGIO.Campi.Ciclo"}}{{/if}}
       </div>
       {{#if corrente}}<div class="orologio-segmento">{{corrente}}</div>{{/if}}
-      <div class="orologio-tempo {{stato}}">{{tempo}}</div>
+      {{#unless senzaTimer}}<div class="orologio-tempo {{stato}}">{{tempo}}</div>{{/unless}}
     </div>
     <div class="orologio-comandi griglia">
       <button type="button" data-action="comando" data-azione="indietro" title="{{localize "OROLOGIO.Comandi.Indietro"}}" {{#if bloccato}}disabled{{/if}}><i class="fa-solid fa-backward-step"></i></button>
-      <button type="button" data-action="comando" data-azione="playPausa" title="{{#if inCorso}}{{localize "OROLOGIO.Comandi.Pausa"}}{{else}}{{localize "OROLOGIO.Comandi.Avvia"}}{{/if}}" {{#if bloccato}}disabled{{/if}}><i class="fa-solid {{#if inCorso}}fa-pause{{else}}fa-play{{/if}}"></i></button>
+      {{#unless senzaTimer}}<button type="button" data-action="comando" data-azione="playPausa" title="{{#if inCorso}}{{localize "OROLOGIO.Comandi.Pausa"}}{{else}}{{localize "OROLOGIO.Comandi.Avvia"}}{{/if}}" {{#if bloccato}}disabled{{/if}}><i class="fa-solid {{#if inCorso}}fa-pause{{else}}fa-play{{/if}}"></i></button>{{/unless}}
       <button type="button" data-action="comando" data-azione="avanti" title="{{localize "OROLOGIO.Comandi.Avanti"}}" {{#if bloccato}}disabled{{/if}}><i class="fa-solid fa-forward-step"></i></button>
       <button type="button" data-action="comando" data-azione="blocca" class="{{#if bloccato}}attivo{{/if}}" title="{{#if bloccato}}{{localize "OROLOGIO.Comandi.Sblocca"}}{{else}}{{localize "OROLOGIO.Comandi.Blocca"}}{{/if}}"><i class="fa-solid {{#if bloccato}}fa-lock{{else}}fa-lock-open{{/if}}"></i></button>
       <button type="button" data-action="comando" data-azione="azzera" title="{{localize "OROLOGIO.Comandi.Azzera"}}" {{#if bloccato}}disabled{{/if}}><i class="fa-solid fa-rotate-left"></i></button>

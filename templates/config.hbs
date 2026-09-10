@@ -36,6 +36,15 @@
     </div>
 
     <div class="form-group">
+      <label>{{localize "OROLOGIO.Campi.Timer"}}</label>
+      <div class="form-fields">
+        <label class="orologio-check"><input type="checkbox" name="senzaTimer" class="ricalcola" {{checked o.senzaTimer}}> {{localize "OROLOGIO.Campi.SenzaTimer"}}</label>
+      </div>
+      <p class="hint">{{localize "OROLOGIO.Campi.SenzaTimerAiuto"}}</p>
+    </div>
+
+    {{#unless o.senzaTimer}}
+    <div class="form-group">
       <label>{{localize "OROLOGIO.Campi.Durata"}}</label>
       <div class="form-fields orologio-durata">
         <input type="number" name="minuti" min="0" step="1" value="{{minuti}}"> <span>min</span>
@@ -43,6 +52,7 @@
       </div>
       <p class="hint">{{localize "OROLOGIO.Campi.DurataAiuto"}}</p>
     </div>
+    {{/unless}}
   </section>
 
   {{!-- 2. Aspetto --}}
@@ -72,26 +82,28 @@
     <div class="orologio-opzioni">
       <label class="orologio-check"><input type="checkbox" name="ciclo" {{checked o.ciclo}}> {{localize "OROLOGIO.Campi.Ciclo"}} <span class="hint">{{localize "OROLOGIO.Campi.CicloAiuto"}}</span></label>
       <label class="orologio-check"><input type="checkbox" name="visibile" {{checked o.visibile}}> {{localize "OROLOGIO.Campi.Visibile"}}</label>
-      <label class="orologio-check"><input type="checkbox" name="mostraTimer" {{checked o.mostraTimer}}> {{localize "OROLOGIO.Campi.MostraTimer"}}</label>
+      {{#unless o.senzaTimer}}<label class="orologio-check"><input type="checkbox" name="mostraTimer" {{checked o.mostraTimer}}> {{localize "OROLOGIO.Campi.MostraTimer"}}</label>{{/unless}}
       <label class="orologio-check"><input type="checkbox" name="mostraNomi" {{checked o.mostraNomi}}> {{localize "OROLOGIO.Campi.MostraNomi"}}</label>
-      <label class="orologio-check"><input type="checkbox" name="manualeScatena" {{checked o.manualeScatena}}> {{localize "OROLOGIO.Campi.ManualeScatena"}}</label>
+      {{#unless o.senzaTimer}}<label class="orologio-check"><input type="checkbox" name="manualeScatena" {{checked o.manualeScatena}}> {{localize "OROLOGIO.Campi.ManualeScatena"}}</label>{{/unless}}
     </div>
   </section>
 
   {{!-- 3. Segmenti --}}
   <section class="tab orologio-scheda-cfg {{tabs.segmenti.cssClass}}" data-group="primary" data-tab="segmenti">
-    <p class="orologio-guida">{{localize "OROLOGIO.Config.GuidaSegmenti"}}</p>
+    <p class="orologio-guida">{{#if o.senzaTimer}}{{localize "OROLOGIO.Config.GuidaSegmentiSenzaTimer"}}{{else}}{{localize "OROLOGIO.Config.GuidaSegmenti"}}{{/if}}</p>
 
     {{#each righe}}
     <fieldset class="orologio-segmento-cfg">
       <legend>{{segnaposto}}</legend>
       <div class="orologio-segmento-riga">
         <input type="text" name="nomi.{{i}}" value="{{nome}}" placeholder="{{segnaposto}}" title="{{localize "OROLOGIO.Campi.Nome"}}">
+        {{#unless ../o.senzaTimer}}
         <span class="orologio-timer-proprio" title="{{localize "OROLOGIO.Campi.TimerProprioAiuto"}}">
           <i class="fa-solid fa-stopwatch"></i>
           <input type="number" name="durate.{{i}}.minuti" min="0" step="1" value="{{minuti}}" placeholder="–"> <span>min</span>
           <input type="number" name="durate.{{i}}.secondi" min="0" max="59" step="1" value="{{secondi}}" placeholder="–"> <span>s</span>
         </span>
+        {{/unless}}
       </div>
       {{#each eventi}}
       <div class="orologio-evento">

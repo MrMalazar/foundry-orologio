@@ -1,7 +1,7 @@
 export const MODULO = "orologio";
 export const SOCKET = `module.${MODULO}`;
 export const MIN_SEGMENTI = 3;
-export const MAX_SEGMENTI = 10;
+export const MAX_SEGMENTI = 16;
 
 // Tavolozza semplice: una tinta per orologio.
 export const PALETTE = {

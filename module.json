@@ -2,7 +2,7 @@
   "id": "orologio",
   "title": "Orologio",
   "description": "Orologi a segmenti per il narratore: timer, torte colorate ed eventi allo scadere di ogni segmento.",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "authors": [
     {
       "name": "Mr Malazar"
@@ -10,7 +10,7 @@
   ],
   "url": "https://github.com/MrMalazar/foundry-orologio",
   "manifest": "https://github.com/MrMalazar/foundry-orologio/releases/latest/download/module.json",
-  "download": "https://github.com/MrMalazar/foundry-orologio/releases/download/0.3.0/orologio.zip",
+  "download": "https://github.com/MrMalazar/foundry-orologio/releases/download/0.4.0/orologio.zip",
   "compatibility": {
     "minimum": "13",
     "verified": "14"

@@ -1,5 +1,5 @@
 import { MODULO, MIN_SEGMENTI, MAX_SEGMENTI, PALETTE, DIMENSIONI, TIPI_EVENTO, t } from "./costanti.js";
-import { leggi, scrivi, lista, prendi, nuovoOrologio, limitaSegmenti, durataMs } from "./stato.js";
+import { leggi, scrivi, lista, prendi, nuovoOrologio, limitaSegmenti, durataMs, spegniTimer } from "./stato.js";
 import { contesto, aggiornaTempi } from "./torta.js";
 import { comando } from "./motore.js";
 
@@ -301,9 +301,10 @@ export class OrologioConfig extends HandlebarsApplicationMixin(ApplicationV2) {
     const esistente = orologi[bozza.id];
     const c = esistente ?? nuovoOrologio({ id: bozza.id });
     const durataCambiata = c.durata !== bozza.durata || JSON.stringify(c.durate ?? []) !== JSON.stringify(bozza.durate ?? []);
-    for (const k of ["titolo", "unita", "segmenti", "durata", "durate", "colore", "dimensione", "ciclo", "visibile", "mostraNomi", "mostraTimer", "manualeScatena", "nomi", "eventi"]) {
+    for (const k of ["titolo", "unita", "segmenti", "senzaTimer", "durata", "durate", "colore", "dimensione", "ciclo", "visibile", "mostraNomi", "mostraTimer", "manualeScatena", "nomi", "eventi"]) {
       c[k] = bozza[k];
     }
+    if (c.senzaTimer) spegniTimer(c);
     if (!c.titolo.trim()) c.titolo = t("Titolo");
     c.pieni = Math.min(c.pieni, c.segmenti);
     if (durataCambiata && !(c.attivo && !c.inPausa)) c.residuo = durataMs(c);
@@ -324,7 +325,7 @@ export class OrologioConfig extends HandlebarsApplicationMixin(ApplicationV2) {
     const secondi = Math.max(0, Number.parseInt(d.secondi ?? (o.durata % 60), 10) || 0);
     o.durata = Math.max(1, minuti * 60 + secondi);
     if (d.colore in PALETTE) o.colore = d.colore;
-    for (const k of ["ciclo", "visibile", "mostraNomi", "mostraTimer", "manualeScatena"]) {
+    for (const k of ["senzaTimer", "ciclo", "visibile", "mostraNomi", "mostraTimer", "manualeScatena"]) {
       if (d[k] !== undefined) o[k] = !!d[k];
     }
     const nomi = Array.from({ length: o.segmenti }, (_, i) => {

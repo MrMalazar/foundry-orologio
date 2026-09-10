@@ -25,7 +25,8 @@
       "Vuoto": "No clocks yet. Create one with the button above.",
       "PerSegmento": "per segment",
       "EliminaTitolo": "Delete this clock?",
-      "EliminaTesto": "The clock \"{titolo}\" and its events will be deleted. This cannot be undone."
+      "EliminaTesto": "The clock \"{titolo}\" and its events will be deleted. This cannot be undone.",
+      "AMano": "by hand"
     },
     "Config": {
       "Titolo": "Clock",
@@ -42,12 +43,13 @@
       "SoloNarratoreAiuto": "Only game masters receive the message",
       "Salva": "Save",
       "GuidaBase": "These four things are enough to start the clock. Color and options are under Look, names and events of single segments under Segments.",
-      "GuidaSegmenti": "Optional. Each segment can have a name, its own timer (replacing the base one) and a list of events that fire when the segment fills."
+      "GuidaSegmenti": "Optional. Each segment can have a name, its own timer (replacing the base one) and a list of events that fire when the segment fills.",
+      "GuidaSegmentiSenzaTimer": "Optional. Each segment can have a name and a list of events that fire when you move it forward."
     },
     "Campi": {
       "Titolo": "Title",
       "Segmenti": "Segments",
-      "SegmentiAiuto": "From 3 to 10 slices.",
+      "SegmentiAiuto": "From 3 to 16 slices.",
       "Durata": "Segment duration",
       "DurataAiuto": "Applies to every segment. When it runs out the segment fills and the next one starts. A segment can have its own timer under Segments.",
       "Colore": "Color",
@@ -65,7 +67,10 @@
       "UnitaAiuto": "Names the segments without writing a name for each: \"Scene 1\", \"Scene 2\"…",
       "Dimensione": "Size",
       "DimensioneAiuto": "How big the pie is in the panel.",
-      "TimerProprioAiuto": "Timer for this segment, instead of the base one. Empty: base timer."
+      "TimerProprioAiuto": "Timer for this segment, instead of the base one. Empty: base timer.",
+      "Timer": "Timer",
+      "SenzaTimer": "No timer: advances by hand only",
+      "SenzaTimerAiuto": "No countdown: segments move forward and back only on your commands, and events fire as you step through."
     },
     "Comandi": {
       "Indietro": "Segment back",
@@ -85,7 +90,8 @@
       "attivo": "running",
       "pausa": "paused",
       "bloccato": "locked",
-      "completo": "complete"
+      "completo": "complete",
+      "manuale": "stopped"
     },
     "Eventi": {
       "scena": "Activate scene",

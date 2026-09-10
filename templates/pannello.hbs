@@ -31,7 +31,7 @@
     {{#if ../gm}}
     <div class="orologio-comandi">
       <button type="button" data-azione="indietro" title="{{localize "OROLOGIO.Comandi.Indietro"}}" {{#if bloccato}}disabled{{/if}}><i class="fa-solid fa-backward-step"></i></button>
-      <button type="button" data-azione="playPausa" title="{{#if inCorso}}{{localize "OROLOGIO.Comandi.Pausa"}}{{else}}{{localize "OROLOGIO.Comandi.Avvia"}}{{/if}}" {{#if bloccato}}disabled{{/if}}><i class="fa-solid {{#if inCorso}}fa-pause{{else}}fa-play{{/if}}"></i></button>
+      {{#unless senzaTimer}}<button type="button" data-azione="playPausa" title="{{#if inCorso}}{{localize "OROLOGIO.Comandi.Pausa"}}{{else}}{{localize "OROLOGIO.Comandi.Avvia"}}{{/if}}" {{#if bloccato}}disabled{{/if}}><i class="fa-solid {{#if inCorso}}fa-pause{{else}}fa-play{{/if}}"></i></button>{{/unless}}
       <button type="button" data-azione="avanti" title="{{localize "OROLOGIO.Comandi.Avanti"}}" {{#if bloccato}}disabled{{/if}}><i class="fa-solid fa-forward-step"></i></button>
       <button type="button" data-azione="blocca" class="{{#if bloccato}}attivo{{/if}}" title="{{#if bloccato}}{{localize "OROLOGIO.Comandi.Sblocca"}}{{else}}{{localize "OROLOGIO.Comandi.Blocca"}}{{/if}}"><i class="fa-solid {{#if bloccato}}fa-lock{{else}}fa-lock-open{{/if}}"></i></button>
       <button type="button" data-azione="azzera" title="{{localize "OROLOGIO.Comandi.Azzera"}}" {{#if bloccato}}disabled{{/if}}><i class="fa-solid fa-rotate-left"></i></button>

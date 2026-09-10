@@ -25,7 +25,8 @@
       "Vuoto": "Nessun orologio. Creane uno con il tasto qui sopra.",
       "PerSegmento": "a segmento",
       "EliminaTitolo": "Eliminare l'orologio?",
-      "EliminaTesto": "L'orologio «{titolo}» verrà eliminato con i suoi eventi. Non si torna indietro."
+      "EliminaTesto": "L'orologio «{titolo}» verrà eliminato con i suoi eventi. Non si torna indietro.",
+      "AMano": "a mano"
     },
     "Config": {
       "Titolo": "Orologio",
@@ -42,12 +43,13 @@
       "SoloNarratoreAiuto": "Il messaggio arriva soltanto ai narratori",
       "Salva": "Salva",
       "GuidaBase": "Bastano queste quattro cose per far partire l'orologio. Colore e opzioni stanno in Aspetto, nomi ed eventi dei singoli segmenti in Segmenti.",
-      "GuidaSegmenti": "Facoltativo. Per ogni segmento puoi dare un nome, un timer suo (vale al posto di quello di base) e una lista di eventi che scattano quando il segmento si riempie."
+      "GuidaSegmenti": "Facoltativo. Per ogni segmento puoi dare un nome, un timer suo (vale al posto di quello di base) e una lista di eventi che scattano quando il segmento si riempie.",
+      "GuidaSegmentiSenzaTimer": "Facoltativo. Per ogni segmento puoi dare un nome e una lista di eventi che scattano quando lo mandi avanti."
     },
     "Campi": {
       "Titolo": "Titolo",
       "Segmenti": "Segmenti",
-      "SegmentiAiuto": "Da 3 a 10 fette della torta.",
+      "SegmentiAiuto": "Da 3 a 16 fette della torta.",
       "Durata": "Durata di un segmento",
       "DurataAiuto": "Vale per ogni segmento. Allo scadere il segmento si riempie e parte il successivo. Un segmento può avere un timer suo nella linguetta Segmenti.",
       "Colore": "Colore",
@@ -65,7 +67,10 @@
       "UnitaAiuto": "Serve a chiamare i segmenti senza scrivere un nome per ognuno: «Scena 1», «Scena 2»…",
       "Dimensione": "Dimensione",
       "DimensioneAiuto": "Quanto è grande la torta nel pannello.",
-      "TimerProprioAiuto": "Timer di questo segmento, al posto di quello di base. Vuoto: usa quello di base."
+      "TimerProprioAiuto": "Timer di questo segmento, al posto di quello di base. Vuoto: usa quello di base.",
+      "Timer": "Timer",
+      "SenzaTimer": "Senza timer: avanza solo a mano",
+      "SenzaTimerAiuto": "Niente conto alla rovescia: i segmenti vanno avanti e indietro solo con i tuoi comandi, e gli eventi scattano al passaggio."
     },
     "Comandi": {
       "Indietro": "Segmento indietro",
@@ -85,7 +90,8 @@
       "attivo": "in corso",
       "pausa": "in pausa",
       "bloccato": "bloccato",
-      "completo": "completo"
+      "completo": "completo",
+      "manuale": "fermo"
     },
     "Eventi": {
       "scena": "Attiva scena",

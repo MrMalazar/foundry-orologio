@@ -64,7 +64,7 @@ export async function comando(id, azione) {
       indietro(c, ora);
       break;
     case "playPausa":
-      if (c.bloccato) return;
+      if (c.bloccato || c.senzaTimer) return;
       if (c.attivo && !c.inPausa) pausa(c, ora);
       else avvia(c, ora);
       break;
@@ -84,5 +84,5 @@ export async function comando(id, azione) {
       return;
   }
   await scrivi(orologi);
-  if (raggiunto && c.manualeScatena) await eseguiEventi(c, raggiunto);
+  if (raggiunto && (c.manualeScatena || c.senzaTimer)) await eseguiEventi(c, raggiunto);
 }

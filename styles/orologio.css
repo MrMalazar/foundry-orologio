@@ -292,6 +292,10 @@
   color: #7fd39a;
 }
 
+.orologio-config .form-fields .orologio-check {
+  font-weight: normal;
+}
+
 .orologio-segmento {
   font-size: 12px;
   font-style: italic;

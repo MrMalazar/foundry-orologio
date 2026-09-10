@@ -27,7 +27,7 @@ export function torta(c, { ora = Date.now(), conNomi = false } = {}) {
   const cx = 50, cy = 50, r = 46;
   const colore = PALETTE[c.colore] ?? PALETTE.rosso;
   const passo = 360 / n;
-  const inCorso = c.attivo && !c.inPausa && !c.bloccato;
+  const inCorso = c.attivo && !c.inPausa && !c.bloccato && !c.senzaTimer;
   let parti = "";
   for (let i = 0; i < n; i++) {
     const a0 = -90 + i * passo;
@@ -65,6 +65,7 @@ export function statoDi(c) {
   const completo = c.pieni >= c.segmenti;
   if (c.bloccato) return "bloccato";
   if (completo && !c.ciclo) return "completo";
+  if (c.senzaTimer) return "manuale";
   if (c.attivo && c.inPausa) return "pausa";
   if (c.attivo) return "attivo";
   return "fermo";
@@ -87,8 +88,8 @@ export function contesto(c, gm, ora = Date.now()) {
     statoEtichetta: t(`Stato.${stato}`),
     completo,
     corrente,
-    inCorso: c.attivo && !c.inPausa,
-    mostraTempo: gm || c.mostraTimer,
+    inCorso: c.attivo && !c.inPausa && !c.senzaTimer,
+    mostraTempo: !c.senzaTimer && (gm || c.mostraTimer),
     nomiVisibili
   };
 }
@@ -101,7 +102,7 @@ export function aggiornaTempi(radice, orologi, gm, ora = Date.now()) {
   if (!radice) return;
   for (const el of radice.querySelectorAll("[data-id]")) {
     const c = orologi[el.dataset.id];
-    if (!c) continue;
+    if (!c || c.senzaTimer) continue;
     const box = el.querySelector(".orologio-torta-box");
     if (box) {
       const corrente = box.querySelector(".orologio-fetta.corrente");
