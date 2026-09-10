@@ -1,0 +1,399 @@
+/* ------------------------------------------------------------------ */
+/*  Torta                                                              */
+/* ------------------------------------------------------------------ */
+
+.orologio-torta {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.orologio-fetta {
+  stroke: #101012;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.orologio-fetta.corrente {
+  stroke: none;
+  opacity: 0.55;
+}
+
+.orologio-bordo {
+  stroke: #101012;
+  stroke-width: 2.5;
+}
+
+.orologio-lucchetto {
+  font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 30px;
+  fill: #fff;
+  paint-order: stroke;
+  stroke: #000;
+  stroke-width: 3px;
+}
+
+.orologio-torta-box {
+  flex: none;
+  width: 72px;
+  height: 72px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+}
+
+/* ------------------------------------------------------------------ */
+/*  Pannello sul tavolo                                                */
+/* ------------------------------------------------------------------ */
+
+#orologio-panel {
+  position: fixed;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 260px;
+  color: #eee;
+  font-family: var(--font-primary, "Signika", sans-serif);
+  pointer-events: auto;
+}
+
+#orologio-panel.nascosto {
+  display: none;
+}
+
+#orologio-panel .orologio-presa {
+  cursor: move;
+  user-select: none;
+  padding: 2px 8px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ddd;
+  text-shadow: 0 0 4px #000, 0 0 2px #000;
+}
+
+.orologio-scheda {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border: 1px solid #4a4a52;
+  border-radius: 8px;
+  background: rgba(18, 18, 22, 0.88);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
+}
+
+.orologio-scheda.nascosto-ai-giocatori {
+  opacity: 0.6;
+  border-style: dashed;
+}
+
+.orologio-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.orologio-titolo {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.orologio-titolo i {
+  margin-left: 4px;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.orologio-riga-stato {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.orologio-conteggio {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.orologio-tempo {
+  font-variant-numeric: tabular-nums;
+  font-size: 17px;
+  line-height: 1.2;
+  color: #cfcfd4;
+}
+
+.orologio-tempo.attivo {
+  color: #f5d76e;
+}
+
+.orologio-tempo.pausa {
+  color: #9fb4c7;
+}
+
+.orologio-tempo.bloccato {
+  color: #888;
+}
+
+.orologio-tempo.completo {
+  color: #7fd39a;
+}
+
+.orologio-segmento {
+  font-size: 12px;
+  font-style: italic;
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.orologio-comandi {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: 4px;
+}
+
+.orologio-comandi button {
+  width: 24px;
+  height: 22px;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  font-size: 11px;
+  color: #ddd;
+  background: #2c2c33;
+  border: 1px solid #55555f;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.orologio-comandi button:hover:not(:disabled) {
+  background: #3d3d47;
+  border-color: #8a8a99;
+}
+
+.orologio-comandi button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.orologio-comandi button.attivo {
+  background: #5a3d1a;
+  border-color: #c98a3a;
+}
+
+.orologio-comandi button.pericolo:hover {
+  background: #5a1f1f;
+  border-color: #c04a4a;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Finestre                                                           */
+/* ------------------------------------------------------------------ */
+
+.orologio-app .orologio-gestore {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.orologio-app .orologio-barra {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.orologio-app .orologio-vuoto {
+  text-align: center;
+  opacity: 0.7;
+  padding: 16px 0;
+}
+
+.orologio-app .orologio-riga {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border: 1px solid var(--color-border-light-2, #55555f);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.orologio-app .orologio-riga .orologio-torta-box {
+  width: 64px;
+  height: 64px;
+}
+
+.orologio-app .orologio-dettagli {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.orologio-app .orologio-comandi.griglia {
+  display: grid;
+  grid-template-columns: repeat(4, 26px);
+  gap: 4px;
+  margin: 0;
+}
+
+.orologio-app .orologio-comandi.griglia button {
+  width: 26px;
+  height: 24px;
+}
+
+/* Configurazione */
+
+.orologio-config .window-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.orologio-config .orologio-config-corpo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.orologio-config .form-group {
+  margin: 0;
+}
+
+.orologio-config .hint {
+  font-size: 11px;
+  opacity: 0.75;
+  margin: 2px 0 0;
+}
+
+.orologio-config .orologio-durata {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.orologio-config .orologio-durata input {
+  width: 64px;
+  flex: none;
+}
+
+.orologio-config .orologio-colori {
+  display: flex;
+  gap: 8px;
+}
+
+.orologio-swatch {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  flex: none;
+}
+
+.orologio-swatch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+}
+
+.orologio-swatch span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--tinta);
+  border: 2px solid transparent;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+
+.orologio-swatch input:checked + span {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px var(--tinta);
+}
+
+.orologio-config .orologio-opzioni {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 0;
+}
+
+.orologio-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.orologio-check input {
+  margin: 0;
+}
+
+.orologio-check.piccola {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.orologio-config .orologio-sezione {
+  margin: 8px 0 0;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--color-border-light-2, #55555f);
+}
+
+.orologio-segmento-cfg {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px 8px 8px;
+  border: 1px solid var(--color-border-light-2, #55555f);
+  border-radius: 6px;
+}
+
+.orologio-segmento-cfg legend {
+  font-weight: bold;
+  padding: 0 4px;
+}
+
+.orologio-evento {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.orologio-evento select,
+.orologio-evento input[type="text"] {
+  flex: 1;
+  min-width: 0;
+}
+
+.orologio-evento select.evento-tipo {
+  flex: 0 0 150px;
+}
+
+.orologio-evento button {
+  flex: none;
+  width: 28px;
+  height: 26px;
+  padding: 0;
+  line-height: 1;
+}
+
+.orologio-aggiungi {
+  align-self: flex-start;
+  font-size: 12px;
+  padding: 2px 8px;
+  height: auto;
+  line-height: 1.6;
+}
+
+.orologio-config .form-footer {
+  margin-top: 8px;
+}

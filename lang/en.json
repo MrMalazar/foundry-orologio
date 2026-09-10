@@ -1,0 +1,94 @@
+{
+  "OROLOGIO": {
+    "Titolo": "Clock",
+    "Controlli": {
+      "Titolo": "Clocks",
+      "Gestisci": "Manage clocks",
+      "Nuovo": "New clock",
+      "Pannello": "Show or hide the panel"
+    },
+    "Pannello": {
+      "Titolo": "Clocks",
+      "Trascina": "Drag to move the panel",
+      "NascostoAiGiocatori": "Hidden from players"
+    },
+    "Gestore": {
+      "Titolo": "Clocks",
+      "Nuovo": "New clock",
+      "Vuoto": "No clocks yet. Create one with the button above.",
+      "PerSegmento": "per segment",
+      "EliminaTitolo": "Delete this clock?",
+      "EliminaTesto": "The clock \"{titolo}\" and its events will be deleted. This cannot be undone."
+    },
+    "Config": {
+      "Titolo": "Clock",
+      "Segmenti": "Segments and events",
+      "SegmentiAiuto": "Each segment can have a name and a list of events. Events fire when the segment fills.",
+      "Segmento": "Segment",
+      "AggiungiEvento": "Add event",
+      "RimuoviEvento": "Remove event",
+      "Scegli": "Choose…",
+      "Percorso": "File path",
+      "Sfoglia": "Browse",
+      "TestoChat": "Message text",
+      "SoloNarratore": "GM only",
+      "SoloNarratoreAiuto": "Only game masters receive the message",
+      "Salva": "Save"
+    },
+    "Campi": {
+      "Titolo": "Title",
+      "Segmenti": "Segments",
+      "SegmentiAiuto": "From 3 to 10 slices.",
+      "Durata": "Segment duration",
+      "DurataAiuto": "When it runs out the segment fills and the next one starts.",
+      "Colore": "Color",
+      "Ciclo": "Loop",
+      "CicloAiuto": "(restart from zero after a full turn; otherwise stop when full)",
+      "Visibile": "Visible to players",
+      "MostraTimer": "Players see the countdown",
+      "MostraNomi": "Players see segment names",
+      "ManualeScatena": "Events also fire on manual advance",
+      "Nome": "Name",
+      "NomeSegnaposto": "Leave empty if not needed"
+    },
+    "Comandi": {
+      "Indietro": "Segment back",
+      "Avanti": "Segment forward",
+      "Avvia": "Start timer",
+      "Pausa": "Pause",
+      "Blocca": "Lock",
+      "Sblocca": "Unlock",
+      "Azzera": "Reset",
+      "Mostra": "Show to players",
+      "Nascondi": "Hide from players",
+      "Modifica": "Edit",
+      "Elimina": "Delete"
+    },
+    "Stato": {
+      "fermo": "stopped",
+      "attivo": "running",
+      "pausa": "paused",
+      "bloccato": "locked",
+      "completo": "complete"
+    },
+    "Eventi": {
+      "scena": "Activate scene",
+      "journal": "Show journal",
+      "immagine": "Show image",
+      "macro": "Run macro",
+      "chat": "Chat message",
+      "suono": "Play sound"
+    },
+    "Colori": {
+      "rosso": "Red",
+      "ambra": "Amber",
+      "verde": "Green",
+      "azzurro": "Blue",
+      "viola": "Purple",
+      "avorio": "Ivory"
+    },
+    "Avvisi": {
+      "EventoFallito": "Clock \"{titolo}\": an event of segment {segmento} failed. Check the console."
+    }
+  }
+}

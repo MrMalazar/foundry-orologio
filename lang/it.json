@@ -1,0 +1,94 @@
+{
+  "OROLOGIO": {
+    "Titolo": "Orologio",
+    "Controlli": {
+      "Titolo": "Orologi",
+      "Gestisci": "Gestisci gli orologi",
+      "Nuovo": "Nuovo orologio",
+      "Pannello": "Mostra o nascondi il pannello"
+    },
+    "Pannello": {
+      "Titolo": "Orologi",
+      "Trascina": "Trascina per spostare il pannello",
+      "NascostoAiGiocatori": "Nascosto ai giocatori"
+    },
+    "Gestore": {
+      "Titolo": "Orologi",
+      "Nuovo": "Nuovo orologio",
+      "Vuoto": "Nessun orologio. Creane uno con il tasto qui sopra.",
+      "PerSegmento": "a segmento",
+      "EliminaTitolo": "Eliminare l'orologio?",
+      "EliminaTesto": "L'orologio «{titolo}» verrà eliminato con i suoi eventi. Non si torna indietro."
+    },
+    "Config": {
+      "Titolo": "Orologio",
+      "Segmenti": "Segmenti ed eventi",
+      "SegmentiAiuto": "Ogni segmento può avere un nome e una lista di eventi. Gli eventi scattano quando il segmento si riempie.",
+      "Segmento": "Segmento",
+      "AggiungiEvento": "Aggiungi evento",
+      "RimuoviEvento": "Rimuovi evento",
+      "Scegli": "Scegli…",
+      "Percorso": "Percorso del file",
+      "Sfoglia": "Sfoglia",
+      "TestoChat": "Testo del messaggio",
+      "SoloNarratore": "solo narratore",
+      "SoloNarratoreAiuto": "Il messaggio arriva soltanto ai narratori",
+      "Salva": "Salva"
+    },
+    "Campi": {
+      "Titolo": "Titolo",
+      "Segmenti": "Segmenti",
+      "SegmentiAiuto": "Da 3 a 10 fette della torta.",
+      "Durata": "Durata di un segmento",
+      "DurataAiuto": "Allo scadere il segmento si riempie e parte il successivo.",
+      "Colore": "Colore",
+      "Ciclo": "Ciclo",
+      "CicloAiuto": "(finito il giro riparte da zero; altrimenti si ferma pieno)",
+      "Visibile": "Visibile ai giocatori",
+      "MostraTimer": "I giocatori vedono il conto alla rovescia",
+      "MostraNomi": "I giocatori vedono i nomi dei segmenti",
+      "ManualeScatena": "Gli eventi scattano anche con l'avanzamento manuale",
+      "Nome": "Nome",
+      "NomeSegnaposto": "Lascia vuoto se non serve"
+    },
+    "Comandi": {
+      "Indietro": "Segmento indietro",
+      "Avanti": "Segmento avanti",
+      "Avvia": "Avvia il timer",
+      "Pausa": "Metti in pausa",
+      "Blocca": "Blocca",
+      "Sblocca": "Sblocca",
+      "Azzera": "Azzera",
+      "Mostra": "Mostra ai giocatori",
+      "Nascondi": "Nascondi ai giocatori",
+      "Modifica": "Modifica",
+      "Elimina": "Elimina"
+    },
+    "Stato": {
+      "fermo": "fermo",
+      "attivo": "in corso",
+      "pausa": "in pausa",
+      "bloccato": "bloccato",
+      "completo": "completo"
+    },
+    "Eventi": {
+      "scena": "Attiva scena",
+      "journal": "Mostra journal",
+      "immagine": "Mostra immagine",
+      "macro": "Esegui macro",
+      "chat": "Messaggio in chat",
+      "suono": "Riproduci suono"
+    },
+    "Colori": {
+      "rosso": "Rosso",
+      "ambra": "Ambra",
+      "verde": "Verde",
+      "azzurro": "Azzurro",
+      "viola": "Viola",
+      "avorio": "Avorio"
+    },
+    "Avvisi": {
+      "EventoFallito": "Orologio «{titolo}»: un evento del segmento {segmento} non è riuscito. Guarda la console."
+    }
+  }
+}

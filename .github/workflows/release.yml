@@ -1,0 +1,48 @@
+# Release automatica: si crea un tag semver senza "v" (es. 0.1.0) e questo
+# workflow costruisce lo zip e pubblica la release con module.json e
+# orologio.zip in allegato. Foundry installa da:
+# https://github.com/MrMalazar/foundry-orologio/releases/latest/download/module.json
+name: Release
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: La versione del manifest deve combaciare col tag
+        run: |
+          VERSION=$(python3 -c "import json; print(json.load(open('module.json'))['version'])")
+          if [ "$VERSION" != "$GITHUB_REF_NAME" ]; then
+            echo "module.json dice $VERSION ma il tag e' $GITHUB_REF_NAME: aggiorna module.json prima di taggare." >&2
+            exit 1
+          fi
+          DOWNLOAD=$(python3 -c "import json; print(json.load(open('module.json'))['download'])")
+          case "$DOWNLOAD" in
+            *"/releases/download/$GITHUB_REF_NAME/orologio.zip") ;;
+            *) echo "Il campo download di module.json non punta alla release $GITHUB_REF_NAME." >&2; exit 1 ;;
+          esac
+
+      - name: Costruisci lo zip
+        run: |
+          mkdir -p dist/.release-stage
+          cp module.json dist/.release-stage/
+          cp -r lang scripts styles templates dist/.release-stage/
+          (cd dist/.release-stage && zip -qr ../orologio.zip .)
+          cp module.json dist/module.json
+          unzip -l dist/orologio.zip | grep -q " module.json" || { echo "module.json non e' alla radice dello zip" >&2; exit 1; }
+
+      - name: Pubblica la release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/orologio.zip dist/module.json \
+            --title "$GITHUB_REF_NAME" --generate-notes

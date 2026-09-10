@@ -1,0 +1,29 @@
+<div class="orologio-presa" title="{{localize "OROLOGIO.Pannello.Trascina"}}">
+  <i class="fa-solid fa-clock"></i> {{localize "OROLOGIO.Pannello.Titolo"}}
+</div>
+{{#each orologi}}
+<div class="orologio-scheda stato-{{stato}}{{#unless visibile}} nascosto-ai-giocatori{{/unless}}" data-id="{{id}}">
+  <div class="orologio-torta-box">{{{svg}}}</div>
+  <div class="orologio-info">
+    <div class="orologio-titolo" title="{{titolo}}">
+      {{titolo}}
+      {{#if ../gm}}{{#unless visibile}}<i class="fa-solid fa-eye-slash" title="{{localize "OROLOGIO.Pannello.NascostoAiGiocatori"}}"></i>{{/unless}}{{/if}}
+    </div>
+    <div class="orologio-riga-stato">
+      <span class="orologio-conteggio">{{pieni}}/{{segmenti}}</span>
+      {{#if mostraTempo}}<span class="orologio-tempo {{stato}}">{{tempo}}</span>{{/if}}
+    </div>
+    {{#if corrente}}<div class="orologio-segmento" title="{{corrente}}">{{corrente}}</div>{{/if}}
+    {{#if ../gm}}
+    <div class="orologio-comandi">
+      <button type="button" data-azione="indietro" title="{{localize "OROLOGIO.Comandi.Indietro"}}" {{#if bloccato}}disabled{{/if}}><i class="fa-solid fa-backward-step"></i></button>
+      <button type="button" data-azione="playPausa" title="{{#if inCorso}}{{localize "OROLOGIO.Comandi.Pausa"}}{{else}}{{localize "OROLOGIO.Comandi.Avvia"}}{{/if}}" {{#if bloccato}}disabled{{/if}}><i class="fa-solid {{#if inCorso}}fa-pause{{else}}fa-play{{/if}}"></i></button>
+      <button type="button" data-azione="avanti" title="{{localize "OROLOGIO.Comandi.Avanti"}}" {{#if bloccato}}disabled{{/if}}><i class="fa-solid fa-forward-step"></i></button>
+      <button type="button" data-azione="blocca" class="{{#if bloccato}}attivo{{/if}}" title="{{#if bloccato}}{{localize "OROLOGIO.Comandi.Sblocca"}}{{else}}{{localize "OROLOGIO.Comandi.Blocca"}}{{/if}}"><i class="fa-solid {{#if bloccato}}fa-lock{{else}}fa-lock-open{{/if}}"></i></button>
+      <button type="button" data-azione="azzera" title="{{localize "OROLOGIO.Comandi.Azzera"}}" {{#if bloccato}}disabled{{/if}}><i class="fa-solid fa-rotate-left"></i></button>
+      <button type="button" data-azione="modifica" title="{{localize "OROLOGIO.Comandi.Modifica"}}"><i class="fa-solid fa-pen"></i></button>
+    </div>
+    {{/if}}
+  </div>
+</div>
+{{/each}}
