@@ -15,7 +15,9 @@
       "NascostoAiGiocatori": "Nascosto ai giocatori",
       "Allarga": "Allarga",
       "Riduci": "Riduci in basso a sinistra",
-      "SoloTimer": "Solo nome e timer"
+      "SoloTimer": "Solo nome e timer",
+      "Ridimensiona": "Sblocca il ridimensionamento (maniglia in basso a destra)",
+      "ManigliaAiuto": "Trascina per ingrandire o rimpicciolire il pannello"
     },
     "Gestore": {
       "Titolo": "Orologi",

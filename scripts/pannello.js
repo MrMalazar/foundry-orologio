@@ -27,7 +27,9 @@ export class Pannello {
       modo: MODI_PANNELLO.includes(s.modo) ? s.modo : "grande",
       ancorato: !!s.ancorato,
       left: Number.isFinite(s.left) ? s.left : 110,
-      top: Number.isFinite(s.top) ? s.top : 56
+      top: Number.isFinite(s.top) ? s.top : 56,
+      ridimensionabile: !!s.ridimensionabile,
+      zoom: Number.isFinite(s.zoom) ? Math.min(3, Math.max(0.5, s.zoom)) : 1
     };
   }
 
@@ -54,6 +56,12 @@ export class Pannello {
     Pannello.render();
   }
 
+  /** Accende o spegne la maniglia di ridimensionamento. */
+  static async alternaRidimensionamento() {
+    await Pannello.salvaStato({ ridimensionabile: !Pannello.stato.ridimensionabile });
+    Pannello.render();
+  }
+
   static init() {
     if (Pannello.el) return;
     const el = document.createElement("div");
@@ -75,6 +83,8 @@ export class Pannello {
     if (!el) return;
     const s = Pannello.stato;
     el.classList.toggle("ancorato", s.ancorato);
+    el.classList.toggle("ridimensionabile", s.ridimensionabile);
+    Pannello.#applicaZoom(s.zoom);
     if (s.ancorato) {
       const giocatori = document.getElementById("players");
       const r = giocatori?.getBoundingClientRect();
@@ -113,11 +123,18 @@ export class Pannello {
         grande: s.modo === "grande",
         piccolo: s.modo === "piccolo",
         minimo: s.modo === "minimo",
+        ridimensionabile: s.ridimensionabile,
         orologi: orologi.map(c => contesto(c, gm, ora))
       }
     );
-    el.innerHTML = html;
+    // Lo zoom sta su un involucro interno, così left e top del pannello restano in pixel veri.
+    el.innerHTML = `<div class="orologio-zoom">${html}</div>`;
     Pannello.posiziona();
+  }
+
+  static #applicaZoom(zoom) {
+    const involucro = Pannello.el?.querySelector(".orologio-zoom");
+    if (involucro) involucro.style.zoom = String(zoom);
   }
 
   static #onClick(event) {
@@ -126,6 +143,7 @@ export class Pannello {
     event.preventDefault();
     const azione = bottone.dataset.azione;
     if (azione === "modo") return Pannello.cambiaModo(bottone.dataset.modo);
+    if (azione === "ridimensiona") return Pannello.alternaRidimensionamento();
     if (!game.user.isGM) return;
     const id = bottone.closest("[data-id]")?.dataset.id;
     if (!id) return;
@@ -138,6 +156,7 @@ export class Pannello {
   /* Trascinamento dalla presa in alto */
 
   static #onPointerDown(event) {
+    if (event.target.closest(".orologio-maniglia")) return Pannello.#iniziaRidimensione(event);
     if (!event.target.closest(".orologio-presa") || event.target.closest("[data-azione]")) return;
     event.preventDefault();
     const rect = Pannello.el.getBoundingClientRect();
@@ -166,5 +185,34 @@ export class Pannello {
     const left = Number.parseInt(Pannello.el.style.left, 10) || 0;
     const top = Number.parseInt(Pannello.el.style.top, 10) || 0;
     Pannello.salvaStato({ left, top, ancorato: false });
+  };
+
+  /* Ridimensionamento dalla maniglia in basso a destra: scala tutto il pannello */
+
+  static #ridimensione = null;
+
+  static #iniziaRidimensione(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const rect = Pannello.el.getBoundingClientRect();
+    Pannello.#ridimensione = { x0: event.clientX, y0: event.clientY, w0: rect.width, h0: rect.height, zoom0: Pannello.stato.zoom };
+    window.addEventListener("pointermove", Pannello.#onRidimensiona);
+    window.addEventListener("pointerup", Pannello.#fineRidimensione, { once: true });
+  }
+
+  static #onRidimensiona = (event) => {
+    const d = Pannello.#ridimensione;
+    if (!d) return;
+    const rapporto = Math.max((d.w0 + event.clientX - d.x0) / d.w0, (d.h0 + event.clientY - d.y0) / d.h0);
+    const zoom = Math.min(3, Math.max(0.5, d.zoom0 * rapporto));
+    Pannello.#applicaZoom(zoom);
+    Pannello.el.dataset.zoom = String(zoom);
+  };
+
+  static #fineRidimensione = () => {
+    window.removeEventListener("pointermove", Pannello.#onRidimensiona);
+    Pannello.#ridimensione = null;
+    const zoom = Number.parseFloat(Pannello.el.dataset.zoom);
+    if (Number.isFinite(zoom)) Pannello.salvaStato({ zoom }).then(() => Pannello.posiziona());
   };
 }

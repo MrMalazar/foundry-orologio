@@ -15,7 +15,9 @@
       "NascostoAiGiocatori": "Hidden from players",
       "Allarga": "Expand",
       "Riduci": "Shrink to bottom left",
-      "SoloTimer": "Name and timer only"
+      "SoloTimer": "Name and timer only",
+      "Ridimensiona": "Unlock resizing (handle at the bottom right)",
+      "ManigliaAiuto": "Drag to enlarge or shrink the panel"
     },
     "Gestore": {
       "Titolo": "Clocks",

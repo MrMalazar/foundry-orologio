@@ -27,7 +27,7 @@ export function torta(c, { ora = Date.now(), conNomi = false } = {}) {
   const cx = 50, cy = 50, r = 46;
   const colore = PALETTE[c.colore] ?? PALETTE.rosso;
   const passo = 360 / n;
-  const frazione = frazioneCorrente(c, ora);
+  const inCorso = c.attivo && !c.inPausa && !c.bloccato;
   let parti = "";
   for (let i = 0; i < n; i++) {
     const a0 = -90 + i * passo;
@@ -36,16 +36,29 @@ export function torta(c, { ora = Date.now(), conNomi = false } = {}) {
     const nome = conNomi ? nomeSegmento(c, i) : "";
     const titolo = nome ? `<title>${sicuro(nome)}</title>` : `<title>${i + 1}</title>`;
     parti += `<path class="orologio-fetta ${piena ? "piena" : "vuota"}" d="${fetta(cx, cy, r, a0, a1)}" fill="${piena ? colore : COLORE_VUOTO}">${titolo}</path>`;
-    if (!piena && i === c.pieni && frazione > 0) {
-      const fine = a0 + passo * frazione;
-      parti += `<path class="orologio-fetta corrente" d="${fetta(cx, cy, r, a0, fine)}" fill="${colore}"/>`;
+    if (!piena && i === c.pieni) {
+      // Il segmento in corso: una velatura che pulsa quando il timer corre,
+      // sopra la parte già trascorsa che si riempie. La parte trascorsa la
+      // aggiorna ogni secondo aggiornaTempi() toccando solo l'attributo d,
+      // così la pulsazione non riparte da capo a ogni tick.
+      if (inCorso) parti += `<path class="orologio-fetta pulsa" d="${fetta(cx, cy, r, a0, a1)}" fill="${colore}"/>`;
+      parti += `<path class="orologio-fetta corrente" d="${fettaCorrente(c, ora)}" fill="${colore}"/>`;
     }
   }
-  const bloccato = c.bloccato
-    ? `<text x="50" y="57" text-anchor="middle" class="orologio-lucchetto">&#xf023;</text>`
-    : "";
-  return `<svg viewBox="0 0 100 100" class="orologio-torta" data-colore="${c.colore}">${parti}<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" class="orologio-bordo"/>${bloccato}</svg>`;
+  return `<svg viewBox="0 0 100 100" class="orologio-torta${inCorso ? " in-corso" : ""}" data-colore="${c.colore}">${parti}<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" class="orologio-bordo"/>${c.bloccato ? LUCCHETTO : ""}</svg>`;
 }
+
+/** Il tracciato della parte già trascorsa del segmento in corso. */
+function fettaCorrente(c, ora = Date.now()) {
+  const passo = 360 / c.segmenti;
+  const a0 = -90 + c.pieni * passo;
+  const frazione = frazioneCorrente(c, ora);
+  if (frazione <= 0) return "";
+  return fetta(50, 50, 46, a0, a0 + passo * frazione);
+}
+
+// Un lucchetto disegnato, senza font: corpo, arco e buco della serratura.
+const LUCCHETTO = `<g class="orologio-lucchetto"><circle cx="50" cy="50" r="17" class="lucchetto-sfondo"/><path d="M42,49 v-6 a8,8 0 0 1 16,0 v6" fill="none" class="lucchetto-arco"/><rect x="38.5" y="48.5" width="23" height="15" rx="2.5" class="lucchetto-corpo"/><circle cx="50" cy="55" r="2" class="lucchetto-buco"/><rect x="49" y="55" width="2" height="4.5" class="lucchetto-buco"/></g>`;
 
 /** Lo stato leggibile di un orologio. */
 export function statoDi(c) {
@@ -90,7 +103,12 @@ export function aggiornaTempi(radice, orologi, gm, ora = Date.now()) {
     const c = orologi[el.dataset.id];
     if (!c) continue;
     const box = el.querySelector(".orologio-torta-box");
-    if (box) box.innerHTML = torta(c, { ora, conNomi: gm || c.mostraNomi });
+    if (box) {
+      const corrente = box.querySelector(".orologio-fetta.corrente");
+      const serve = c.pieni < c.segmenti;
+      if (corrente && serve) corrente.setAttribute("d", fettaCorrente(c, ora));
+      else if (serve || corrente) box.innerHTML = torta(c, { ora, conNomi: gm || c.mostraNomi });
+    }
     const tempo = el.querySelector(".orologio-tempo");
     if (tempo) {
       tempo.textContent = formattaMs(residuoMs(c, ora));
